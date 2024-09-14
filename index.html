@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="my.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+  <style>
+    #header2{
+      background-color: white;
+    }
+    #table{
+     
+    }
+    #pageicon{
+      display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="Header">
+      <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4"><h1>JK's Library</h1></span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+          </ul>
+        </header>
+      </div>
+    </div>
+    <div id="header2">
+      <nav class="navbar navbar-expand-lg" aria-label="Offcanvas navbar large">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><h2>Book List</h2></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Offcanvas</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#"></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"></a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Arrangement
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Alphabet</a></li>
+                    <li><a class="dropdown-item" href="#">Published year</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Random</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="d-flex mt-3 mt-lg-0" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success" type="submit" formaction="add.html">Add</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div id="table">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Book number</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Published year</th>
+            <th scope="col">Genre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1,001</td>
+            <td><a href="view.html">The Silent Forest</a></td>
+            <td>John Smith</td>
+            <td>1995</td>
+            <td>Fiction</td>
+          </tr>
+          <tr>
+            <td>1,002</td>
+            <td><a href="view.html">The Quantum Realm</a></td>
+            <td>Emily Davis</td>
+            <td>2010</td>
+            <td>Science Fiction</td>
+          </tr>
+          <tr>
+            <td>1,003</td>
+            <td><a href="view.html">Whispers of the Past</a></td>
+            <td>Sarah Johnson</td>
+            <td>1987</td>
+            <td>Historical Fiction</td>
+          </tr>
+          <tr>
+            <td>1,004</td>
+            <td><a href="view.html">Infinite Horizons</a></td>
+            <td>Michael Lee</td>
+            <td>2019</td>
+            <td>Fantasy</td>
+          </tr>
+          <tr>
+            <td>1,005</td>
+            <td><a href="view.html">Shadows in the Night</a></td>
+            <td>Linda Taylor</td>
+            <td>2002</td>
+            <td>Thriller</td>
+          </tr>
+          <tr>
+            <td>1,006</td>
+            <td><a href="view.html">Beneath the Stars</a></td>
+            <td>David Green</td>
+            <td>2015</td>
+            <td>Romance</td>
+          </tr>
+          <tr>
+            <td>1,007</td>
+            <td><a href="view.html">Echoes of Eternity</a></td>
+            <td>Alice Walker</td>
+            <td>2021</td>
+            <td>Science Fiction</td>
+          </tr>
+          <tr>
+            <td>1,008</td>
+            <td><a href="view.html">The Forgotten Kingdom</a></td>
+            <td>George Brown</td>
+            <td>1998</td>
+            <td>Fantasy</td>
+          </tr>
+          <tr>
+            <td>1,009</td>
+            <td><a href="view.html">Crimson Dawn</a></td>
+            <td>Karen White</td>
+            <td>2008</td>
+            <td>Mystery</td>
+          </tr>
+          <tr>
+            <td>1,010</td>
+            <td><a href="view.html">The Final Odyssey</a></td>
+            <td>James Miller</td>
+            <td>2003</td>
+            <td>Adventure</td>
+          </tr>
+          <tr>
+            <td>1,011</td>
+            <td><a href="view.html">The Lost Symphony</a></td>
+            <td>Sophia Harris</td>
+            <td>2012</td>
+            <td>Drama</td>
+          </tr>
+          <tr>
+            <td>1,012</td>
+            <td><a href="view.html">Winds of Change</a></td>
+            <td>Henry Cooper</td>
+            <td>1999</td>
+            <td>Non-Fiction</td>
+          </tr>
+          <tr>
+            <td>1,013</td>
+            <td><a href="view.html">The Midnight Journey</a></td>
+            <td>Victoria Scott</td>
+            <td>2017</td>
+            <td>Fantasy</td>
+          </tr>
+          <tr>
+            <td>1,014</td>
+            <td><a href="view.html">The Vanishing Point</a></td>
+            <td>Charles Lewis</td>
+            <td>1985</td>
+            <td>Mystery</td>
+          </tr>
+          <tr>
+            <td>1,015</td>
+            <td><a href="view.html">Reflections of Tomorrow</a></td>
+            <td>Mary Turner</td>
+            <td>2020</td>
+            <td>Science Fiction</td>
+          </tr>
+        </tbody>
+        
+      </table>
+    </div>
+    <div id="pageicon">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div id="footer">
+      <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Library, Inc</span>
+          </div>
+      
+          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+          </ul>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
