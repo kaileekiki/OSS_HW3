@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학생 데이터 관리</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    div {
+      margin-bottom: 15px;
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 250px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: green;
+    }
+
+    button:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+
+    #contents ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #contents li {
+      background-color: #fff;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #updateForm {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #fafafa;
+      border-radius: 5px;
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <h1>학생부</h1>
+
+  <button id="btnStu">학생부 가져오기</button>
+
+  <div>
+    <input type="text" id="name" placeholder="이름 입력">
+    <input type="number" id="age" placeholder="나이 입력">
+    <input type="text" id="studentId" placeholder="학번 입력">
+    <input type="text" id="major" placeholder="전공 입력">
+    <button id="btnAdd">학생 추가</button>
+  </div>
+
+  <div id="contents">
+  </div>
+
+  <script>
+    window.onload = function () {
+      let btnStu = document.getElementById("btnStu");
+      let btnAdd = document.getElementById("btnAdd");
+      btnStu.addEventListener("click", getStudents);
+      btnAdd.addEventListener("click", postData);
+    }
+
+    function getStudents() {
+      let contents = document.getElementById("contents");
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("GET", "http://localhost:3001/students");
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.send();
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const res = JSON.parse(xhr.response);
+          contents.innerHTML = makeList(res);
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+
+    function makeList(data) {
+      let str = "<ul>";
+      for (key in data) {
+        str += `
+          <li>
+            <div>
+              이름: ${data[key].name}, 나이: ${data[key].age}, 학번: ${data[key].studentId}, 전공: ${data[key].major}
+            </div>
+            <div>
+              <button onclick="showUpdateForm(${data[key].id}, '${data[key].name}', ${data[key].age}, '${data[key].studentId}', '${data[key].major}')">수정</button>
+              <button onclick="deleteData(${data[key].id})">삭제</button>
+            </div>
+          </li>`;
+      }
+      str += "</ul>";
+      return str;
+    }
+
+    function postData() {
+      let name = document.getElementById("name").value;
+      let age = document.getElementById("age").value;
+      let studentId = document.getElementById("studentId").value;
+      let major = document.getElementById("major").value;
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:3001/students");
+      xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+      const data = { name: name, age: age, studentId: studentId, major: major };
+
+      xhr.send(JSON.stringify(data));
+      xhr.onload = () => {
+        if (xhr.status === 201) {
+          document.getElementById("name").value = "";
+          document.getElementById("age").value = "";
+          document.getElementById("studentId").value = "";
+          document.getElementById("major").value = "";
+          getStudents();
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+
+    function showUpdateForm(id, currentName, currentAge, currentStudentId, currentMajor) {
+      const updateForm = `
+        <div id="updateForm" class="fade-in">
+          <input type="text" id="updateName" value="${currentName}">
+          <input type="number" id="updateAge" value="${currentAge}">
+          <input type="text" id="updateStudentId" value="${currentStudentId}">
+          <input type="text" id="updateMajor" value="${currentMajor}">
+          <button onclick="updateData(${id})">수정 완료</button>
+        </div>
+      `;
+      document.getElementById("contents").insertAdjacentHTML("beforeend", updateForm);
+    }
+
+    function updateData(id) {
+      let updateName = document.getElementById("updateName").value;
+      let updateAge = document.getElementById("updateAge").value;
+      let updateStudentId = document.getElementById("updateStudentId").value;
+      let updateMajor = document.getElementById("updateMajor").value;
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", `http://localhost:3001/students/${id}`);
+      xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+      const data = { name: updateName, age: parseInt(updateAge), studentId: updateStudentId, major: updateMajor };
+
+      xhr.send(JSON.stringify(data));
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          document.getElementById("updateForm").remove();
+          getStudents();
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+
+    function deleteData(id) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("DELETE", `http://localhost:3001/students/${id}`);
+      xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+
+      xhr.send();
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          console.log("삭제 완료:", id);
+          getStudents();
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학생 데이터 관리</title>
+</head>
+<body>
+  <h1>학생 데이터 관리</h1>
+
+  <button id="btnStu">학생 데이터 가져오기</button>
+
+  <div>
+    <input type="text" id="name" placeholder="이름 입력">
+    <input type="number" id="age" placeholder="나이 입력">
+    <button id="btnAdd">학생 데이터 추가</button>
+  </div>
+
+  <div id="updateForm" style="display:none;">
+    <input type="text" id="updateName" placeholder="이름 수정">
+    <input type="number" id="updateAge" placeholder="나이 수정">
+    <button id="btnUpdate" onclick="submitUpdate()">수정 완료</button>
+  </div>
+
+  <div id="contents"></div>
+
+  <script>
+    let updateId = null;
+
+    window.onload = function () {
+      let btnStu = document.getElementById("btnStu");
+      let btnAdd = document.getElementById("btnAdd");
+      btnStu.addEventListener("click", getStudents);
+      btnAdd.addEventListener("click", postData);
+    }
+
+    function getStudents() {
+      let contents = document.getElementById("contents");
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("GET", "http://localhost:3001/students");
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.send();
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const res = JSON.parse(xhr.response);
+          contents.innerHTML = makeList(res);
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+
+    function makeList(data) {
+      let str = "<ul>";
+      for (const key in data) {
+        str += `
+          <li>
+            ${data[key].name} (${data[key].age})
+            <button onclick="showUpdateForm(${data[key].id}, '${data[key].name}', ${data[key].age})">수정</button>
+            <button onclick="deleteData(${data[key].id})">삭제</button>
+          </li>`;
+      }
+      str += "</ul>";
+      return str;
+    }
+
+    function postData() {
+      let name = document.getElementById("name");
+      let age = document.getElementById("age");
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "http://localhost:3001/students");
+      xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+
+      const data = { name: name.value, age: age.value };
+      xhr.send(JSON.stringify(data));
+
+      xhr.onload = () => {
+        if (xhr.status === 201) {
+          name.value = "";
+          age.value = "";
+          getStudents();
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+
+    function showUpdateForm(id, name, age) {
+      document.getElementById("updateForm").style.display = "block";
+      document.getElementById("updateName").value = name;
+      document.getElementById("updateAge").value = age;
+      updateId = id;
+    }
+
+    function submitUpdate() {
+      let name = document.getElementById("updateName").value;
+      let age = document.getElementById("updateAge").value;
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("PUT", `http://localhost:3001/students/${updateId}`);
+      xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+
+      const data = { name, age };
+      xhr.send(JSON.stringify(data));
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          document.getElementById("updateForm").style.display = "none";
+          getStudents();
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+
+    function deleteData(id) {
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("DELETE", "http://localhost:3001/students/" +
+id);
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.send();
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          getStudents();
+        } else {
+          console.log(xhr.status, xhr.statusText);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
