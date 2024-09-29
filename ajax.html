@@ -3,30 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>학생 데이터 관리</title>
+  <title>학생부</title>
 </head>
 <body>
-  <h1>학생 데이터 관리</h1>
+  <h1>학생부</h1>
 
-  <button id="btnStu">학생 데이터 가져오기</button>
+  <button id="btnStu">학생부 불러오기</button>
 
   <div>
     <input type="text" id="name" placeholder="이름 입력">
-    <input type="number" id="age" placeholder="나이 입력">
-    <button id="btnAdd">학생 데이터 추가</button>
-  </div>
-
-  <div id="updateForm" style="display:none;">
-    <input type="text" id="updateName" placeholder="이름 수정">
-    <input type="number" id="updateAge" placeholder="나이 수정">
-    <button id="btnUpdate" onclick="submitUpdate()">수정 완료</button>
+    <input type="number" id="age" placeholder="나이 입력" min="0">
+    <button id="btnAdd">학생 추가</button>
   </div>
 
   <div id="contents"></div>
 
   <script>
-    let updateId = null;
-
     window.onload = function () {
       let btnStu = document.getElementById("btnStu");
       let btnAdd = document.getElementById("btnAdd");
@@ -54,7 +46,7 @@
 
     function makeList(data) {
       let str = "<ul>";
-      for (const key in data) {
+      for (let key in data) {
         str += `
           <li>
             ${data[key].name} (${data[key].age})
@@ -67,20 +59,24 @@
     }
 
     function postData() {
-      let name = document.getElementById("name");
-      let age = document.getElementById("age");
-      const xhr = new XMLHttpRequest();
+      let name = document.getElementById("name").value;
+      let age = document.getElementById("age").value;
 
+      if (!name || !age) {
+        alert("이름과 나이를 입력하세요.");
+        return;
+      }
+
+      const xhr = new XMLHttpRequest();
       xhr.open("POST", "http://localhost:3001/students");
       xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+      const data = { name, age: parseInt(age) }; // Ensure age is a number
 
-      const data = { name: name.value, age: age.value };
       xhr.send(JSON.stringify(data));
-
       xhr.onload = () => {
         if (xhr.status === 201) {
-          name.value = "";
-          age.value = "";
+          document.getElementById("name").value = "";
+          document.getElementById("age").value = "";
           getStudents();
         } else {
           console.log(xhr.status, xhr.statusText);
@@ -88,27 +84,34 @@
       }
     }
 
-    function showUpdateForm(id, name, age) {
-      document.getElementById("updateForm").style.display = "block";
-      document.getElementById("updateName").value = name;
-      document.getElementById("updateAge").value = age;
-      updateId = id;
+    function showUpdateForm(id, currentName, currentAge) {
+      const updateForm = `
+        <div id="updateForm">
+          <input type="text" id="updateName" value="${currentName}">
+          <input type="number" id="updateAge" value="${currentAge}" min="0">
+          <button onclick="updateData(${id})">수정 완료</button>
+        </div>`;
+      document.getElementById("contents").insertAdjacentHTML("beforeend", updateForm);
     }
 
-    function submitUpdate() {
-      let name = document.getElementById("updateName").value;
-      let age = document.getElementById("updateAge").value;
+    function updateData(id) {
+      let updateName = document.getElementById("updateName").value;
+      let updateAge = document.getElementById("updateAge").value;
+
+      if (!updateName || !updateAge) {
+        alert("이름과 나이를 입력하세요.");
+        return;
+      }
+
       const xhr = new XMLHttpRequest();
-
-      xhr.open("PUT", `http://localhost:3001/students/${updateId}`);
+      xhr.open("PUT", `http://localhost:3001/students/${id}`);
       xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+      const data = { name: updateName, age: parseInt(updateAge) }; // Ensure age is a number
 
-      const data = { name, age };
       xhr.send(JSON.stringify(data));
-
       xhr.onload = () => {
         if (xhr.status === 200) {
-          document.getElementById("updateForm").style.display = "none";
+          document.getElementById("updateForm").remove();
           getStudents();
         } else {
           console.log(xhr.status, xhr.statusText);
@@ -118,12 +121,10 @@
 
     function deleteData(id) {
       const xhr = new XMLHttpRequest();
+      xhr.open("DELETE", `http://localhost:3001/students/${id}`);
+      xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
 
-      xhr.open("DELETE", "http://localhost:3001/students/" +
-id);
-      xhr.setRequestHeader("content-type", "application/json");
       xhr.send();
-
       xhr.onload = () => {
         if (xhr.status === 200) {
           getStudents();

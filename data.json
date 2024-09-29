@@ -1,31 +1,26 @@
 {
   "students": [
     {
-      "id": "4ecb",
-      "name": "kai",
-      "age": 23
-    },
-    {
-      "id": "3ad9",
-      "name": "Kim",
-      "age": "25"
-    },
-    {
-      "id": "fb34",
       "name": "Jerry",
-      "age": "31",
-      "studentId": "22100593",
-      "major": "computer"
+      "age": 24,
+      "id": "1"
     },
     {
-      "id": "4b84",
-      "name": "",
-      "age": ""
+      "id": "985d",
+      "name": "Peter",
+      "age": 22
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "cname": "Open source studio",
+      "credit": 3
     },
     {
-      "id": "ceee",
-      "name": "",
-      "age": ""
+      "id": "2",
+      "cname": "Programming studio",
+      "credit": 2
     }
   ]
 }
